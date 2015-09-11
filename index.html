@@ -345,7 +345,7 @@ var baseMaps = {
             "<span class='my-layer-item-basemap'>Shaded Relief</span>": Stamen_TerrainBackground,
             "<span class='my-layer-item-basemap'>Black Wallpaper</span>": black_wallpaper
           };
-
+*/
             // Instantiate new map object, place it in 'map' element
             var map_object = new L.Map('map', {
                 center: [40.7033,-73.9796], // New York, NY
@@ -356,9 +356,9 @@ var baseMaps = {
               //scrollWheelZoom: false   // to keep from zooming accidentally
             });
 
-L.control.layers(baseMaps, null, {collapsed: true, position:'bottomright', autoZIndex: false}).addTo(map_object);
+//L.control.layers(baseMaps, null, {collapsed: true, position:'bottomright', autoZIndex: false}).addTo(map_object);
 
-*/
+
 
 // ***********************************************************************
 // Leaflet BOUNDARY overlays using cartodb.createLayer and .addTo() method
@@ -993,7 +993,7 @@ var arab_gradu = cartodb.createLayer(map_object, {
 
     // Use the custom grouped layer control, not "L.control.layers"
     var layerControl = L.control.groupedLayers(baseLayers, groupedOverlays, options);
-    map.addControl(layerControl);
+    map_object.addControl(layerControl);
 
 
 

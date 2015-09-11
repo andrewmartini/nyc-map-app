@@ -10,15 +10,14 @@
  
         <link rel="shortcut icon" href="http://cartodb.com/assets/favicon.ico" />
  
-        <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.7.3/leaflet.css" />
+      <!--  <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.7.3/leaflet.css" /> -->
         <link rel="stylesheet" href="../nyc-map-app/src/leaflet.groupedlayercontrol.css" />
  
 
         <link rel="stylesheet" href="http://libs.cartocdn.com/cartodb.js/v3/themes/css/cartodb.css" type="text/css" /> 
  
 
-  <script src="http://cdn.leafletjs.com/leaflet-0.7.3/leaflet.js"></script>
-  <script src="../nyc-map-app/src/leaflet.groupedlayercontrol.js"></script>
+
    <!-- <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.8/jquery.min.js"></script> -->
    <!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script> -->
 
@@ -64,8 +63,8 @@
           font: 12px/1.5 "Helvetica Neue", Arial, Helvetica, sans-serif;
           font-weight: 500;
           padding: 10px 16px 6px 5px;   /* top, right, bottom, left */
-          height: 115px;
-          width: 175px;
+          height: 500px;
+         /* width: 175px; */
           overflow: auto;    /* allows scrolling in selector */
           overflow-y: scroll;   /* scroll for touch screen devices? maybe */
         }
@@ -292,6 +291,8 @@
 
         <!-- include cartodb.js library -->
         <script src="http://libs.cartocdn.com/cartodb.js/v3/3.13/cartodb.js" type="text/javascript"></script> 
+
+  <script src="../nyc-map-app/src/leaflet.groupedlayercontrol.js"></script>
  
         <!--[if lte IE 8]>
         <link rel="stylesheet" href="http://libs.cartocdn.com/cartodb.js/v2/themes/css/cartodb.ie.css" />
@@ -931,10 +932,8 @@ var arab_gradu = cartodb.createLayer(map_object, {
     // Overlay layers are grouped
     var groupedOverlays = {
       "Districts": {
-                      "<span class='my-layer-item-basemap'>Basemap Labels</span>": l_labels_overlay,
                       "<span class='my-layer-item-steelblue'>Boroughs</span>": l_nybb,
                       "<span class='my-layer-item-steelblue'>Neighborhoods</span>": l_neighborhoods,
-                      "<span class='my-layer-item-italic'>Neighborhood Labels</span>": l_neigh_labels, 
                       "<span class='my-layer-item-steelblue'>Community Districts</span>": l_nycd,
                       "<span class='my-layer-item-steelblue'>City Council</span>": l_nycc,
                       "<span class='my-layer-item-steelblue'>NY State Senate</span>": l_nyss,
@@ -944,11 +943,20 @@ var arab_gradu = cartodb.createLayer(map_object, {
                       "<span class='my-layer-item-steelblue'>Zip Codes</span>": l_zipcode,
                       "<span class='my-layer-item-steelblue'>UHF Zones</span>": l_uhf_health
       },
-      "Clergy CBO": {
+      "Labels": {
+                    "Cartodb Basemap Labels": l_labels_overlay,   
+                    "CAU's Neighborhood Labels": l_neigh_labels
+      },
+      "Facilities": {
                       "Community Based Orgs": l_cbo,
                       "Hospitals & Clinics": l_health,
                       "Libraries": l_library,
                       "Senior & Rec Centers": l_fac,
+                      "NYCHA developments": l_nycha,
+                      "Subway Lines": l_subways,
+                      "Parks Properties": l_dpr_parks 
+      },
+      "Religious Organizations" :{
                       "<span class='my-layer-item-red'>Christian Orgs</span>": l_christian,
                       "<span class='my-layer-item-blue'>Jewish Orgs</span>": l_jewish,
                       "<span class='my-layer-item-green'>Muslim Orgs</span>": l_muslim,
@@ -956,10 +964,7 @@ var arab_gradu = cartodb.createLayer(map_object, {
                       "<span class='my-layer-item-orange'>Buddhist Orgs</span>": l_buddhist,
                       "<span class='my-layer-item-yellow'>Sikh Orgs</span>": l_sikh,
                       "<span class='my-layer-item-purple'>Hare Krishna Orgs</span>": l_krishna, 
-                      "Other Religious Orgs": l_other_religion,
-                      "NYCHA developments": l_nycha,
-                      "Subway Lines": l_subways,
-                      "Parks Properties": l_dpr_parks  
+                      "Other Religious Orgs": l_other_religion
       },
       "CAU Outreach Targets": {
                     "CAU events by Neigh": l_cau_events,
@@ -971,16 +976,22 @@ var arab_gradu = cartodb.createLayer(map_object, {
                     "Nail Salon // Action": l_nails,
                     "Vision Zero": l_vision_zero
       },
-      "Random": {
+      "Demographics": {
                   "Percent Hispanic": l_percent_hispanic_choro,
                   "Percent NH White": l_percent_nhwhite_choro,
                   "Percent NH Black": l_percent_nhblack_choro,       
-                  "Percent NH Asian": l_percent_nhasian_choro,
+                  "Percent NH Asian": l_percent_nhasian_choro
+      },
+      "Income": {
                   "Median HH Income": l_median_inc_choro,
-                  "Median Inc to Rent": l_median_inc_to_rent,
+                  "Median Inc to Rent": l_median_inc_to_rent
+      },
+      "DOE Language Data": {
                   "DOE: Lang Plurality": l_lang_plurality,
                   "DOE: Non-Engl Plur": l_plur_non_eng,
-                  "DOE: Non-Engl/Span": l_nonengspan,        
+                  "DOE: Non-Engl/Span": l_nonengspan
+      },
+      "Foreign Born": {     
                   "Prcnt Foreign Born": l_percent_foreignborn_choro,
                   "Bangladeshi": l_bangladesh_gradu,
                   "Pakistani": l_pakistani_gradu,
@@ -989,7 +1000,7 @@ var arab_gradu = cartodb.createLayer(map_object, {
     };
 
     // Make the "Districts" group exclusive (use radio inputs)
-    var options = { exclusiveGroups: ["Districts"], groupCheckboxes: true };
+    var options = { exclusiveGroups: ["Demographics"], groupCheckboxes: false, collapsed: false, autoZIndex: false };
 
     // Use the custom grouped layer control, not "L.control.layers"
     var layerControl = L.control.groupedLayers(baseLayers, groupedOverlays, options);

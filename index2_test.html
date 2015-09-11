@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Basic Example</title>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.7.3/leaflet.css" />
+  <link rel="stylesheet" href="../nyc-map-app/src/leaflet.groupedlayercontrol.css" />
+
+    <style type="text/css">
+                html, body, #map {
+                    height: 100%;
+                    padding: 0;
+                    margin: 0;
+                }
+    </style>  
+</head>
+
+<body>
+   <div id="map"></div>
+
+  <script src="http://cdn.leafletjs.com/leaflet-0.7.3/leaflet.js"></script>
+  <script src="../nyc-map-app/src/leaflet.groupedlayercontrol.js"></script>
+  <script>
+    var cities = new L.LayerGroup();
+    L.marker([39.61, -105.02]).bindPopup('Littleton, CO.').addTo(cities);
+    L.marker([39.74, -104.99]).bindPopup('Denver, CO.').addTo(cities);
+    L.marker([39.73, -104.8]).bindPopup('Aurora, CO.').addTo(cities);
+    L.marker([39.77, -105.23]).bindPopup('Golden, CO.').addTo(cities);
+
+    var restaurants = new L.LayerGroup();
+    L.marker([39.69, -104.85]).bindPopup('A restaurant').addTo(restaurants);
+    L.marker([39.69, -105.12]).bindPopup('A restaurant').addTo(restaurants);
+
+    var dogs = new L.LayerGroup();
+    L.marker([39.79, -104.95]).bindPopup('A dog').addTo(dogs);
+    L.marker([39.79, -105.22]).bindPopup('A dog').addTo(dogs);
+
+    var cats = new L.LayerGroup();
+    L.marker([39.59, -104.75]).bindPopup('A cat').addTo(cats);
+    L.marker([39.59, -105.02]).bindPopup('A cat').addTo(cats);
+
+        <script type="text/javascript">
+            window.onload = function () {
+
+//load up basemaps, store in var objects
+var light_nolabels = L.tileLayer('http://{s}.basemaps.cartocdn.com/light_nolabels/{z}/{x}/{y}.png', {attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'});
+
+var Esri_WorldImagery = L.tileLayer('http://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {attribution: 'Tiles &copy; Esri &mdash; Source: Esri et. al.'});
+
+var OpenStreetMap_Mapnik = L.tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {maxZoom: 19, attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'});
+
+var Stamen_TerrainBackground = L.tileLayer('http://stamen-tiles-{s}.a.ssl.fastly.net/terrain-background/{z}/{x}/{y}.png', {
+  attribution: 'Map tiles by <a href="http://stamen.com">Stamen Design</a>, <a href="http://creativecommons.org/licenses/by/3.0">CC BY 3.0</a> &mdash; Map data &copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>',  subdomains: 'abcd',  minZoom: 4,  maxZoom: 18,  ext: 'png',  bounds: [[22, -132], [70, -56]] });
+
+var black_wallpaper = L.tileLayer('http://www.colourlovers.com/wallPaper/1200x800/n/2875/COLOURlovers.com-Gothic_Wallpaper.png', { attribution: '&copy; <a href="http://www.colourlovers.com/lover/candycrack/loveNote">CandyCrack</a> contributors'});
+
+
+    var map = L.map('map', {
+      center: [39.73, -104.99],
+      zoom: 10,
+      layers: [light_nolabels, cities]
+    });
+
+    var baseLayers = {
+      "Grayscale": light_nolabels,
+      "Streets": OpenStreetMap_Mapnik
+    };
+
+    // Overlay layers are grouped
+    var groupedOverlays = {
+      "Landmarks": {
+        "Cities": cities,
+        "Restaurants": restaurants
+      },
+      "Random": {
+        "Dogs": dogs,
+        "Cats": cats
+      }
+    };
+
+    // Make the "Landmarks" group exclusive (use radio inputs)
+    var options = { exclusiveGroups: ["Landmarks"], groupCheckboxes: true };
+
+    // Use the custom grouped layer control, not "L.control.layers"
+    var layerControl = L.control.groupedLayers(baseLayers, groupedOverlays, options);
+    map.addControl(layerControl);
+
+    // Remove and add a layer
+    //layerControl.removeLayer(cities);
+    //layerControl.addOverlay(cities, "Cities", "New Category");
+  </script>
+</body>
+</html>

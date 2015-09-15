@@ -2,7 +2,7 @@
 <html>
     <head>
         <title>
-            CAU MAP APP | DRAFT | created 09/11/15
+            NYC MAP APP (CAU) | DRAFT | version created 09/11/15
         </title>
  
         <meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
@@ -133,7 +133,7 @@
           background: none repeat scroll 0 0 rgba(246, 249, 254, 0.95);
           border-radius: 5px;
           box-shadow: 0 0 10px rgba(0, 0, 0, 0.95);
-          font: 15px/1.5 "Helvetica Neue", Arial, Helvetica, sans-serif;
+          font: 14px/1.5 "Helvetica Neue", Arial, Helvetica, sans-serif;
           font-weight: 500;
           padding: 10px 16px 6px 5px;   /* top, right, bottom, left */
           height: 500px;
@@ -1081,7 +1081,7 @@ map_object.addLayer(l_neigh_labels);
                       "Parks Properties": l_dpr_parks 
       },
       "Religious Organizations" :{
-                      "<span class='my-layer-item-red'>Christian Orgs</span>": l_christian,
+                      "<img src='nyc-map-app/images/red_cross-50px.png' alt='icon' height='12px' width='12px' /> <span class='my-layer-item-red'>Christian Orgs</span>": l_christian,
                       "<span class='my-layer-item-blue'>Jewish Orgs</span>": l_jewish,
                       "<span class='my-layer-item-green'>Muslim Orgs</span>": l_muslim,
                       "<span class='my-layer-item-salmon'>Hindu Orgs</span>": l_hindu,
@@ -1123,8 +1123,8 @@ map_object.addLayer(l_neigh_labels);
       }      
     };
 
-    // Make the "Districts" group exclusive (use radio inputs)
-    var options = { exclusiveGroups: ["Demographics"], groupCheckboxes: false, collapsed: false, autoZIndex: false };
+    // Make the "Demographics" group exclusive (use radio inputs)
+    var options = { exclusiveGroups: ["Demographics"], groupCheckboxes: true, collapsed: false, autoZIndex: false };
 
     // Use the custom grouped layer control, not "L.control.layers"
     var layerControl = L.control.groupedLayers(baseLayers, groupedOverlays, options);
@@ -1134,7 +1134,7 @@ map_object.addLayer(l_neigh_labels);
 
 // legend generator code: 
 var nhblacklegend = L.control({position: 'bottomright'});
-nhblacklegend.onAdd = function (map) {
+nhblacklegend.onAdd = function (map_object) {
     var div = L.DomUtil.create('div', 'info legend'),
         grades = [0, 10, 20, 35, 50, 65, 90],
         labels = [];
@@ -1160,7 +1160,7 @@ nhblacklegend.onAdd = function (map) {
 var nhwhitelegend = L.control({position: 'bottomright'});
 nhwhitelegend.onAdd = function (map) {
     var div = L.DomUtil.create('div', 'info legend'),
-        grades = [0, 10, 20, 35, 50, 65, 91.1],
+        grades = [0, 10, 20, 35, 50, 65, 90],
         labels = [];
 
     // loop through our density intervals and generate a label with a colored square for each interval
